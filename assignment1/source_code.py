@@ -28,10 +28,17 @@ user_averages = user_totals / user_count
 print("user averages:\n", user_averages)
 
 # create user item ratings matrix
-user_item_matrix = np.zeros((max_user, max_item))
-print("user item matrix:\n", user_item_matrix)
+ratings_matrix = np.zeros((max_user, max_item))
+for rating in example:
+    ratings_matrix[rating[0]-1][rating[1]-1] = rating[2]
+print("user item ratings matrix:\n", ratings_matrix)
+
+# create average (user) subtracted matrix
+avg_sub_matrix = np.zeros((max_user, max_item))
+for u in range(max_user):
+    avg_sub_matrix[u] = np.where(ratings_matrix[u] > 0, ratings_matrix[u] - user_averages[u], 0) #subtract user average from every rating except 0 (missing) ratings
+print("average subtracted matrix:\n", avg_sub_matrix)
 
 # create item similarity matrix
 item_sim_matrix = np.zeros((max_item, max_item))
 print("item similarity matrix:\n", item_sim_matrix)
-
