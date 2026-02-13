@@ -41,4 +41,14 @@ print("average subtracted matrix:\n", avg_sub_matrix)
 
 # create item similarity matrix
 item_sim_matrix = np.zeros((max_item, max_item))
+for i1 in range(max_item):
+    for i2 in range(max_item):  #every item computed with every other item
+        item1 = np.where(ratings_matrix[:, i2] != 0, avg_sub_matrix[:, i1], 0)  #if a user hasn't rated either item, both ratings are set to 0 to be excluded from the calculation
+        item2 = np.where(ratings_matrix[:, i1] != 0, avg_sub_matrix[:, i2], 0)
+        # calculate adjusted cosine similarity
+        numerator = sum(item1 * item2)
+        denominator = np.sqrt(sum(item1 ** 2)) * np.sqrt(sum(item2 ** 2))
+        similarity = numerator / denominator
+        item_sim_matrix[i1][i2] = similarity
 print("item similarity matrix:\n", item_sim_matrix)
+    
